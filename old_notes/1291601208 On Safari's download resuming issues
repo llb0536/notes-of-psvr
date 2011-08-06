@@ -1,0 +1,4 @@
+<p>When you are downloading a big file using Safari, and say want to pause for a while but don't want to jeopardize the patience you have already paid, what would you do?</p>
+<p>After my testing on this issue, I find that you can safely click the cancle button in the Downloads window. After that, you can click the yellow button to continue. But when you exit the browser and come back again, sometimes the yellow button does not appear. But don't get mad about it, actually, firstly click the "Clear" button on the bottom and then navigate in Finder to find the uncomplete file (which has the extension of "download"), double click it to open again via Safari.</p>
+<p>Then the download is on its way again!</p>
+<p>In fact, Apple did a very good job. The dot download file actually features its exact download progress bar in its icon! Change to bigger icon view in Finder and you will appreciate that.</p>

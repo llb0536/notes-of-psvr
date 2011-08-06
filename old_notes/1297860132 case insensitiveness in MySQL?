@@ -1,0 +1,24 @@
+<p>
+If you do the following SQL query in MySQL
+</p>
+<code>
+SELECT * FROM `mizar_symbols` WHERE name='Ball'
+</code><p>
+Then Records with names equal 'ball' or 'BALL' or 'bALl',etc will return at the same time. Generally, the collation setting is the one to blame. As a workaround, you should type the following</p>
+<code>
+SELECT * FROM `mizar_symbols` WHERE name=binary 'Ball'
+</code><p>
+And the following is a SQL that checks for duplication with case sensitiveness in concern.</p>
+<code>
+SELECT DISTINCT (
+binary name
+) AS name, COUNT( name ) AS count
+FROM  `mizar_symbols` 
+GROUP BY binary name
+HAVING count >1
+</code>
+<p>For more info, consult <a href="http://dev.mysql.com/doc/refman/5.0/en/case-sensitivity.html">http://dev.mysql.com/doc/refman/5.0/en/case-sensitivity.html</a></p>
+<p>Changing the collation type also saves the day</p>
+<code>
+ALTER TABLE  `mizar_symbols` CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+</code>

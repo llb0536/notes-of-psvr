@@ -1,0 +1,30 @@
+<p>So today I was trying to install ImageVue X2 (Build 20081223) on my server, which has PHP Version 5.3.3-1ubuntu9.3 as the interpreter. I expected it to be working just out of the box, however it turned out to be not. When you finished uploading all the files and hit enter in the address input box of your browser, the flash runs, yet without any data loaded. All it has got is 5 'undefined' in the menu and the whole situation come to a halt. Seems like something is wrong with the permissions of the files, un-oh, it's not as I run through the tests of the admin page.</p>
+
+<p>I searched and found many people with similar problems. I figured this out in the end. The problem happened with the versions. Well this ImageVue that I used is written and tested under PHP 4, yet subtle differences exist between PHP 4 and PHP 5. It is one critical difference that caused this 'undefined' halt.</p>
+
+<p>And that is, "Assigning the return value of new by reference".</p>
+
+<p>Now please cd into imagevue/controllers and vim XmlController.php, you will see code like this:</p>
+
+<code>
+$xml = &new ivXml();
+</code>
+
+<p>This is the main cause of the problem, as you see if you turn on the PHP warning mechanism if you visit this page</p>
+
+<blockquote>
+http://www.yourdomain.name/path_of_imagevue/?a=folders
+</blockquote>
+
+<p>That code is not allowed any more in PHP 5, as the OOP mechanisms are strengthened in this much more advanced version. In PHP 4 if you do not add an ampersand before the actual object, the real value of the object will be copied. However, that is changed completely in PHP 5 like the case of many other OOP languages, where by default, only references of objects are returned.</p>
+
+<p>Here come the solution, search all files with this keyword: </p>
+<blockquote>
+&new
+</blockquote>
+<p>and change them all to: </p>
+<blockquote>
+new
+</blockquote>
+
+<p>And problem will be solved if you see no more error messages in that "?a=folders" address that we have mentioned above.</p>

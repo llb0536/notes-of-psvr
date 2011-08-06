@@ -1,0 +1,47 @@
+<p>Assuming you are using Ubuntu 10.10 like me, you can create the following file in /etc/init.d and name it gem_server.</p>
+<code>
+<pre>
+#!/bin/bash
+
+. /lib/lsb/init-functions
+prog="/usr/local/bin/gem server --daemon"
+
+start() {
+pid=$(ps ax -o pid,command | grep "gem server" | grep daemon | awk '{print $1}')
+if test -n "$pid"
+then
+echo "gem server already running : PID $pid"
+else
+$prog
+fi
+}
+
+stop() {
+pid=$(ps ax -o pid,command | grep "gem server" | grep daemon | awk '{print $1}')
+if test -n "$pid"
+then
+echo "stopping gem server"
+kill $pid
+else
+echo "gem server not running"
+fi
+}
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+restart)
+stop
+start
+;;
+*)
+echo $"Usage: $0 {start|stop|restart}"
+exit 1
+esac
+</pre>
+</code>
+<p>Then use 'sysv-rc-conf' to convenientlly enable it. Watch out that when using this tool which [ ] belongs to which row often bewilder your eye, make sure you edited the right row:) </p>

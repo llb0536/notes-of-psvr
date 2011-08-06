@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Username:</b>
+  <%= @reply.username %>
+</p>
+
+<p>
+  <b>Website:</b>
+  <%= @reply.website %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @reply.email %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @reply.body %>
+</p>
+
+
+<%= link_to 'Edit', edit_reply_path(@reply) %> |
+<%= link_to 'Back', replies_path %>

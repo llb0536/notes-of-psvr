@@ -1,0 +1,39 @@
+
+<div id="footer">
+
+	<div class="left">
+
+<% if @note %>
+  <% if @note.prev %>
+    <%= link_to 'Prev',@note.prev %>
+  <% else %>
+    Prev
+  <% end %>
+   | 
+  <% if @note.next %>
+    <%= link_to 'Next',@note.next %>
+  <% else %>
+    Next
+  <% end %>
+<% else %>
+  Prev | Next
+<% end %>
+ |
+<%= link_to 'List',notes_path %>
+</div>
+
+	<div class="right">
+	 <%= link_to 'Home','/' %>
+	</div>
+
+	<div class="clearer">&nbsp;</div>
+
+</div>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>

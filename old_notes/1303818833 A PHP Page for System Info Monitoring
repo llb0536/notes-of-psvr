@@ -1,0 +1,29 @@
+<p>If you need a simple PHP page that displays the real-time status of your Linux system, the following code might be a help to you. I wrote this code as a substitution for my Apache's "It works" page.</p>
+<code>
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;<br />
+<br />
+&lt;h2&gt;Netstat&lt;/h2&gt;<br />
+&lt;pre&gt;<br />
+&lt;?php echo shell_exec('netstat -nl'); ?&gt;<br />
+&lt;/pre&gt;<br />
+<br />
+&lt;h2&gt;CPU Usages&lt;/h2&gt;<br />
+&lt;pre&gt;<br />
+&lt;?php echo shell_exec('mpstat -P ALL'); ?&gt;<br />
+&lt;/pre&gt;&lt;pre&gt;<br />
+&lt;?php echo shell_exec('ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10'); ?&gt;<br />
+&lt;/pre&gt;<br />
+<br />
+&lt;h2&gt;Memory Usage&lt;/h2&gt;<br />
+&lt;pre&gt;<br />
+&lt;?php echo shell_exec('free -m'); ?&gt;<br />
+&lt;/pre&gt;&lt;pre&gt;<br />
+<br />
+<br />
+&lt;h2&gt;Temperatures&lt;/h2&gt;<br />
+&lt;pre&gt;<br />
+&lt;?php echo shell_exec('sensors|grep temp'); ?&gt;<br />
+&lt;/pre&gt;<br />
+<br />
+&lt;/body&gt;&lt;/html&gt;<br />
+</code>

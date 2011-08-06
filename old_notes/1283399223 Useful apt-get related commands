@@ -1,0 +1,26 @@
+<p>When I first come to acknowledge the convenience of the packaging system on Ubuntu (and other Debian derived system), I knew only the "apt-get" command. So All that I've kept doing is just "apt-get install" and "apt-get remove" (sometimes "apt-get moo" ha). 
+</p>
+<p>There is in fact much more to it. For example, if you want to see exactly what files have been installed by a single package, say libasound2, you can type this</p>
+<code>dpkg -L libasound2</code>
+<p>And you get</p>
+<code>
+/<br />.
+/etc<br />
+/etc/ld.so.conf.d<br />
+/etc/ld.so.conf.d/libasound2.conf<br />
+/usr<br />
+/usr/lib<br />
+/usr/lib/libasound.so.2.0.0<br />
+/usr/lib/alsa-lib<br />
+/usr/lib/alsa-lib/smixer<br />
+/usr/lib/alsa-lib/smixer/smixer-ac97.so<br />
+/usr/lib/alsa-lib/smixer/smixer-hda.so<br />
+/usr/lib/alsa-lib/smixer/smixer-python.so<br />
+/usr/lib/alsa-lib/smixer/smixer-sbase.so<br />
+...<br />
+</code>
+<p>And if you want to see what package installs a particular file, say /etc/crontab, you can type</p>
+<code>dpkg -S /etc/crontab</code>
+<p>here is the output</p>
+<code>cron: /etc/crontab</code>
+<p>Also you should try aptitude, it has a semi-graphical user interface to help you quickly select a lot of packages and install them all at once. The basic operating sequence is: go up and down -> press '+' to select a package to install -> press 'g' to review the list and optionally select additional suggested packages -> press 'g' again to proceed.</p>

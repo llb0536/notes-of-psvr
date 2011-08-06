@@ -1,0 +1,24 @@
+<p>So today I was editing a <a href="http://www.cs.miami.edu/~tptp/TPTP/QuickGuide/Problems.html">TPTP Problem</a> and saved it as something dot p. When I opened vim with that file, vim automatically syntax-highlighted it.</p>
+
+<p>Hmmm..Does vim know TPTP syntax? Not really, type the following command in vim to see the current syntax template.</p>
+
+<code>
+:set filetype
+</code>
+
+<p>It told me,</p>
+
+<blockquote>
+ filetype=progress
+</blockquote>
+
+<p>See? It's not TPTP, things are not so magical. But what is this progress thing? Let's find it out in the following directory (I'm under Fedora).</p>
+
+<code>
+cd /usr/share/vim/vim72/syntax<br />
+vim progress.vim
+</code>
+
+<p>Then follow the comments of that file, which shows 'progress' means a programming language 'Progress 4GL'.</p>
+
+<p>I wrote this note so that someone who does not know how to get the current loaded color theme of vim and how to see the detailed color theme setting could get a hint.</p>

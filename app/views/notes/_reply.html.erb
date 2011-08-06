@@ -1,0 +1,17 @@
+<li id="comment-<%= reply.id %>" class="<%='alt' if reply_counter%2==0%>" >
+
+	<div class="comment_gravatar left">
+		<img width="32" height="32" src="<%= gravatar_url(reply.email) %>" alt="">
+	</div>
+
+	<div class="comment_author left">
+	  <span class="comment"><a href="#"><%= reply.username %></a></span>
+		<div class="date"><a href="#"><%= reply.created_at.to_i %></a></div>
+	</div>
+
+	<div class="clearer">&nbsp;</div>
+	
+	<div class="body">									
+		<p><%= reply.body %></p>
+	</div>
+</li>

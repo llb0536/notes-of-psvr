@@ -1,0 +1,24 @@
+<p>I'm currently using Debian 5.0 with my laptop and I spend a lot of time working on command line without starting x. It toke me quite a lot of time to figure this out how to connect wirelessly to a WPA-PSK/WPA2-PSK encrypted Wi-Fi spot. However, the answer turns out to be quite simple.</p>
+
+<p>You need the package "wireless-tools" and "wpasupplicant". If you don't have them, apt-get'em first. Then</p>
+
+<code>
+sudo vim /etc/network/interfaces
+</code>
+
+Add the following lines
+
+<code>
+auto wlan0<br />
+iface wlan0 inet dhcp<br />
+wpa-ssid [YOURNETWORKNAME]<br />
+wpa-psk [YOURPASSWORD]
+</code>
+
+<p>where the brackets should be replaced by appropriate content. Then save and exit, and</p>
+
+<code>
+ifup wlan0
+</code>
+
+<p>Then everything starts working smoothly. It also works for ubuntu server (10.04 tested)</p>

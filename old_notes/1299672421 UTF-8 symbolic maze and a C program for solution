@@ -1,0 +1,41 @@
+	<p>I was admitted to be the teaching assistant of the C programming class this school term. And today I'm requested to give a report on recursive program design. Here is the PDF of my lecture notes:</p>
+<p>I was admitted to be the teaching assistant of the C programming class this school term. And today I'm requested to give a report on recursive program design. Here is the PDF of my lecture note:<a href="http://ofpsvr.org/file/teaching_assistant.pdf">http://ofpsvr.org/file/teaching_assistant.pdf</a></p>
+<p>However in the process of preparing this report I learnt something new. I prepared a maze-solving program using depth-first backtracking technique, and found a very good <a href="http://www.vidarholen.net/cgi-bin/labyrinth">symbolic maze generator</a> written by <a href="http://www.vidarholen.net">Vidar Holen</a>. It is an elegant Python script that outputs a UTF-8 based(Of course ASCII-based is better to process but presumably less pretty-looking) maze like the following:</p>
+<blockquote>
+	<pre>
+	┌─┬───┬─────┬─────────────────┬─────┐ 
+	│ └─┐ │ ╷ ╷ ╵ ┌───────────┬─╴ └───╴ │ 
+	├─╴ │ │ │ │ ┌─┘ ┌───┬───┐ ├─────────┤ 
+	│ ╶─┤ ╵ │ └─┤ ╶─┤ ╷ ╵ ╷ │ │ ╶───┬─╴ │ 
+	├─╴ │ ╶─┴─┐ └─┐ └─┼───┤ │ └───╴ │ ╶─┤ 
+	│ ┌─┴─┬─╴ │ ┌─┴─╴ │ ╷ │ ├───────┤ ╷ │ 
+	│ └─┐ │ ┌─┤ │ ╶───┘ │ ╵ │ ┌───┐ │ │ │ 
+	├─╴ │ │ ╵ │ └─┬─────┴─╴ │ ├─╴ │ │ │ │ 
+	│ ┌─┘ └─╴ ├─┐ ╵ ┌───┬───┤ │ ╷ │ └─┤ │ 
+	│ └───┐ ╶─┘ ├───┤ ╷ ╵ ╷ ╵ │ └─┴─╴ │ │ 
+	├─┬─╴ ├───╴ │ ╶─┤ ├───┴───┴─┐ ╶───┤ │ 
+	│ │ ┌─┴───┐ ├─╴ │ │ ┌─────┐ ├───┐ │ │ 
+	│ ╵ │ ╷ ╷ │ ╵ ╷ │ │ └─╴ ╷ │ │ ╶─┤ ╵ │ 
+	│ ┌─┘ │ │ └─┬─┴─┤ └─┬───┤ │ └─┐ └─╴ │ 
+	│ │ ╶─┤ └─┐ ╵ ╷ │ ╶─┤ ╷ ╵ └─┐ │ ╶───┤ 
+	│ ├─╴ └─┐ └───┤ └─┐ ╵ └─┬───┘ ├───┐ │ 
+	│ ├─────┴───╴ ├─╴ │ ┌───┘ ┌───┘ ╷ │ │ 
+	│ ╵ ┌─────────┘ ╶─┴─┘ ┌───┘ ╶─┐ └─┘ │ 
+	└───┴─────────────────┴───────┴─────┘
+	</pre>
+</blockquote>
+<p>And this is my C program which reads such a maze and tries to find a solution from (1,1) to (M,N)(the right-lower most point): <a href="http://ofpsvr.org/file/maze.zip">http://ofpsvr.org/file/maze.zip</a></p>
+<p>The most difficult part is to deal with UTF-8 via C. C is a born-UTF-8-agnostic. Thus we need an extra library. The one that I've found comes very pure and handy -- <a href="http://www.public-software-group.org/utf8proc">utf8proc</a>. This library didn't provide you extra features to open or close UTF-8 file. You just need to do whatever you need to get the c-native-string represented UTF-8 data and pass it to utf8proc_decompose() function. Then all the characters are decomposed and stored as unsigned int, ready to be processed. It works like what follows.</p>
+<code><pre>
+	char line[100];
+	uint8_t *ptr;
+	int32_t buffer[100];
+	int chars_written;
+	while(fgets(line,100,stdin)){
+		utf8proc_map(line,0,&ptr,UTF8PROC_NULLTERM);
+		n = utf8proc_decompose(ptr,100,
+		    buffer,sizeof(buffer),UTF8PROC_NULLTERM) - 2;
+		...
+	}
+</pre></code>
+<p>By the way, I think fgets() is the best way to read in a line by line manner via C. getline() is simply unavailable, oh, 'cause that's a C++ baby.</p>

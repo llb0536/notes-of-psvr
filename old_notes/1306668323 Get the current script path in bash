@@ -1,0 +1,21 @@
+<p>
+Say you wanna get the current script name or script path in a bash script, say, ~/.bashrc, you probably want to do it like this:
+</p>
+
+<code>
+echo Hello from $0
+</code>
+
+<p>However you will find out that it does not work since all that it outputs is: </P>
+<blockquote>
+bash
+</blockquote>
+
+<p>See? It's only the name of the script via which the system calls the script. To get the real path, try this</p>
+
+<code>
+echo ${BASH_SOURCE[*]}
+</code>
+
+<p>Then a whole chain of paths got output, which includes all the real paths of the scripts that has been called upon the execution point of the current script.</p>
+<p>In fact, bash has more built-in arrays like BASH_SOURCE, just <a href="http://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html">check this out</a>.</p>

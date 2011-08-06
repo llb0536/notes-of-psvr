@@ -1,0 +1,56 @@
+<p>Although apt-get is the easist way to get a prodcution-Ruby-on-Rails environment runing on Debian, the version supplied by which is too low to make me satisfied. The rails version provided by official Debian apt-source is 2.1.0 while nowadays the latest is 3.0.3.</p>
+<p>How about setting up the latest version from scratch? Let's do it.</p>
+<p>First of all, download ruby-1.9.2-p0.tar and install ruby.</p>
+<code>
+wget ftp://ftp.ruby-lang.org//pub/ruby/1.9/ruby-1.9.2-p0.tar.gz<br />
+tar xf ruby-1.9.2-p0.tar<br />
+cd ruby-1.9.2-p0<br />
+autoconf<br />
+./configure<br />
+make<br />
+make install<br />
+ruby --version
+</code>
+<p>If you try to use gem now something wrong like the following probably would come up</p>
+<blockquote>
+ERROR:  Loading command: update (LoadError)<br />
+    no such file to load -- zlib<br />
+ERROR:  While executing gem ... (NameError)<br />
+    uninitialized constant Gem::Commands::UpdateCommand<br />
+</blockquote>
+<p>Therefore, one more thing, go back to ruby's code directory and install zlib</p>
+<code>
+cd ruby-1.9.2-p0/ext/zlib<br />
+ruby extconf.rb<br />
+make<br />
+make install
+</code>
+<p>Now comes the main step (in what follows, I assume that you are root):</p>
+<code>
+gem install rails
+</code>
+<p>After which you may like to do a little checking to make sure everything gets into the right position</p>
+<blockquote>
+localhost:~# rails --version<br />
+Rails 3.0.3<br />
+localhost:~# which rails<br />
+/usr/local/bin/rails<br />
+</blockquote>
+<p>In order to deploy a production level ruby on rails environment, I choose to install Nginx with passenger.</p>
+<code>
+gem install passenger<br />
+</code>
+<p>Before running passenger's installation scripts, you probably need to get a few extra packs to get ready.</p>
+<code>
+apt-get install libcurl4-openssl-dev libssl-dev<br />
+cd ruby-1.9.2-p0/ext/openssl;ruby extconf.rb;make;make install<br />
+</code>
+<p>Passenger installation script for Nginx will compile a brand new Nginx for you. Therefore, in case you want to remove pre-installed apache2 or nginx packages, the following commands might be useful for you to completely locate and remove all the related files.</p>
+<code>
+aptitude search ~i | grep apache<br />
+aptitude remove (the packages found by last command)<br />
+aptitude search ~c | grep apache<br />
+aptitude purge ~c<br />
+</code>
+<p>Finally</p>
+<code>passenger-install-nginx-module</code>

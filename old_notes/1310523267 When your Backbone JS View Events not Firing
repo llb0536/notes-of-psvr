@@ -1,0 +1,30 @@
+<p>I've been using <a href="http://documentcloud.github.com/backbone/">backbone.js</a> to develop some javascript-heavy application recently.</p>
+
+<p>I find it quite common for new comers to come into the following problem: why ain't my view events firing?</p>
+
+<p>By "view events" I mean a events hash like the following in a Backbone View class declaration.</p>
+<code>
+<pre>
+class Mine.Views.TasksNew extends Backbone.View
+  events:
+    "click #preview_button":"parse"
+    
+  constructor:(options)->
+    super(options)
+    
+  parse:(e)->
+    alert 'clicked'
+
+  ...
+</pre>
+</code>
+
+<p>When your events are not firing, the following is a useful checklist to go through.</p>
+
+
+<p>1.Maybe you have in the previous class declaration something like "el:\$('#myelement')" and expecting the View to be bound to that specific element. But be cautious! The class declaration may be executed before the page is fully loaded. (This is common since I have seen most people put the class declaration before everything else). Please try to move "el:\$('#myelement')" to the spot where you instantiate the View class and maybe the problem could be solved.</p>
+<p>2.Maybe your "el" is too restrictive. You should be know that the objects mentioned in the events hash are restricted inside the el element.</p>
+<p>3.Be aware of the order inside `"click #preview_button":"parse"`! It's `event` followed by `selector` followed by `handler`. Did you reversed the order?</p>
+<p>4.Trace down the code using firebug,etc. The code of backbone.js is well readable.</p>
+
+<p>This checklist incorporated the bad things that has happened to me that makes my events not firing. Hope it helps you!</p>

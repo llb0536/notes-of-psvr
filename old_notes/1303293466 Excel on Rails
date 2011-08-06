@@ -1,0 +1,64 @@
+<p>OK, today I was continuing developing an internal students management system for my college. Pretty much such kind of systems dictates a export-to-xls functionality, which suits the intercommunication needs of the teachers, whom I found are usually quite fond of Microsoft Excel Spreadsheets.</p>
+
+<p>I found myself two gems. The first is <a href="http://spreadsheet.rubyforge.org/">spreadsheet</a>, the other is <a href="http://raa.ruby-lang.org/project/spreadsheet/">spreadsheet/excel</a>. However, you will never want to use the latter one because its last update is in the year 2006. Plus the former gem claims to be a "drop-in rewritten" of the latter one.</p>
+
+<blockquote>
+Spreadsheet is a combination/complete rewrite of the Spreadsheet::Excel Library by Daniel J. Berger and the ParseExcel Library by Hannes Wyss. Spreadsheet can read, write and modify Spreadsheet Documents.
+</blockquote>
+
+<p>You can add the next line to your Gemfile and `bundle install` to take it home:)</p>
+
+<code>
+gem 'spreadsheet'
+</code>
+
+<p>However the documentation of spreadsheet is pretty limited. You have to go to the installation directory of ruby gem to find a text file named "GUIDE.txt" to get some usage instructions. On my mac, this directory is</p>
+
+<code>
+/usr/local/lib/ruby/gems/1.9.1/gems/spreadsheet-0.6.5.2
+</code>
+
+<p>I used this directly inside my controller, solving my problems quick-and-dirty.</p>
+
+
+<code>
+<pre>
+require 'spreadsheet'
+respond_to do |format|
+ format.html # show.html.erb
+ format.xml { render :xml => @table }
+ format.xls {
+  Spreadsheet.client_encoding = 'UTF-8'
+  
+  book = Spreadsheet::Workbook.new
+  sheet1 = book.create_worksheet :name => @table.name
+
+  sheet1.row(0).replace %w{Rank Name Sum Number Class}
+  sheet1.row(0).height = 20
+  
+  format = Spreadsheet::Format.new :weight => :bold,
+                   :size => 10
+  sheet1.row(0).default_format = format
+
+  bold = Spreadsheet::Format.new :weight => :bold
+   
+  sheet1.column(0).width = 3
+  sheet1.column(1).width = 10
+  sheet1.column(2).width = 10
+  sheet1.column(3).width = 15
+  sheet1.column(4).width = 10
+  i=1
+  @result.each do |key,value|
+	 student = Student.find(key)
+	 sheet1.row(i).replace [i,student.name,sprintf("%.2f",value),student.number,student.bj]
+	 sheet1.row(i).set_format(0, bold)
+	 i+=1
+  end
+  
+  data = StringIO.new('')
+  book.write(data) 
+  send_data(data.string, :filename => "#{@table.name}.xls")
+ }
+end
+</pre>
+</code>

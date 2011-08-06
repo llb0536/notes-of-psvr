@@ -1,0 +1,30 @@
+<p>If, say, you wanna build a backstage system for your RoR website, and want a page to display some server system info just like phpinfo() function in PHP.</p>
+
+<p>Well, then the following pre-defined Constants of Ruby would be useful</p>
+<code>
+RUBY_PLATFORM<br />
+RUBY_VERSION<br />
+RUBY_RELEASE_DATE
+</code>
+<p>Nextly, some rails pre-defined values</p>
+<code>
+ENV['RAILS_ENV'] # or Rails.env<br />
+ENV['RAILS_RELATIVE_URL_ROOT']<br />
+ENV["RAILS_ASSET_ID"]<br />
+ENV["RAILS_CACHE_ID"]<br />
+ENV["RAILS_APP_VERSION"]
+</code>
+
+
+<p>Want to get the current database adapter programatically?</p>
+
+<code>
+ActiveRecord::Base.configurations["development"]["adapter"]
+</code>
+
+<p>And the I18n setting:</p>
+<code>
+I18n.locale
+</code>
+
+<p>Now how about some Rails config value that was stored in config/environment.rb ,etc? I haven't quite figured it out yet. I'll update this page when it's done.</p>

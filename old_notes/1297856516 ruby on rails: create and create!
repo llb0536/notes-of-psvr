@@ -1,0 +1,21 @@
+<p>Today I'm writting a ruby script to pre-fill my database to my rails application. To do that, touch a file inside /config of your rails app and insert at the first line the following</p>
+<code>
+require File.expand_path("../../environment",__FILE__)
+</code>
+<p>That will load the rails environment into your plain ruby script so that you can take advantage of the ActiveRecord.</p>
+<p>Another thing that I want to do is to empty the database everytime the script is invoked.</p>
+<code>
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `tablename_here`')
+</code>
+<p>The good thing to notice is that if you invoke ActiveRecord::create to insert a record into your database, sometimes it doesn't really save your record. This might is due to validation errors or other things. Since this script is only used by me, I really want to be awared of all of these exceptions. So the best thing to do is to use create! instead.</p>
+<blockquote>
+Creates an object just like Base.create but calls save! instead of save so an
+exception is raised if the record is invalid.
+</blockquote>
+<p>That's what the documentation says. And about save!</p>
+<blockquote>
+With save! validations always run. If any of them fail
+ActiveRecord::RecordInvalid gets raised. See ActiveRecord::Validations for
+more information.
+</blockquote>
+<p>With create! and save!, I really get a much more deeper confidence over the result of my script run. Hope it helps you too.</p>

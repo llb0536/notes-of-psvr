@@ -1,0 +1,86 @@
+	<div id="site_title">
+		<h1 style="text-align:center"><%= @note.title %></h1>
+		<h2 style="text-align:center"><%= @note.created_at.to_i %></h2>	</div>
+
+
+	<div id="main">
+		
+		<div class="post">
+
+			<div class="post_body">
+				<div id="write_content_here">
+<!-- start -->
+      <%=raw @note.body %>
+<!-- end -->
+			</div>
+			</div>
+
+
+		</div>
+		
+		<h2 id="comments" class="label"><%= @note.replies.count %> Comments</h2>
+		
+		
+		<div class="post">
+
+    			<div class="post_body nicelist" style="min-height:0">
+
+            <script type="text/html" id="li_template">
+            <li id="comment-{{id}}" class="{{klass}}" >
+
+            	<div class="comment_gravatar left">
+            		<img width="32" height="32" src="{{gravatar}}" alt="">
+            	</div>
+
+            	<div class="comment_author left">
+            	  <span class="comment"><a href="#">{{username}}</a></span>
+            		<div class="date"><a href="#">{{inttime}}</a></div>
+            	</div>
+
+            	<div class="clearer">&nbsp;</div>
+
+            	<div class="body">									
+            		<p>{{body}}</p>
+            	</div>
+            </li>
+            </script>
+            
+
+                				<ol id="reply_ol">
+             	            <%= render :partial => 'reply',:collection => @note.replies %>
+                				</ol>
+
+
+    			</div>
+
+    		</div>
+    		
+ 
+
+
+	</div>
+	
+	<div id="bottom" style="padding-bottom:0" data-note-id="<%= @note.id %>">
+  <%= form_for [@note,@reply],:remote=>true do |f| %>
+  	<h2>Add Comment</h2>
+  	<div style="padding-left:6px;color:red;display:none" id="error">
+  	</div>
+  	<div style="padding-left:6px;color:green;display:none" id="notice">
+  	  Thank you!
+  	</div>
+  	<div id="will_be_hidden">
+    	<div style="padding-left:6px;color:red;display:none" id="spinningWheel">
+    	  <%= image_tag 'ajax-loader.gif' %>
+    	</div>
+    			<ul style="padding-top:10px">
+    				<li><a href="#bottom" id="name_link">Name</a><%= f.text_field :username,:style=>'display:none',:id=>'name_input',:class=>'changing',:tabindex => 1 %></li>
+    				<li><a href="#bottom" id="email_link">E-mail</a><%= f.text_field :email,:style=>'display:none',:id=>'email_input',:class=>'changing',:tabindex => 2 %></li>
+    				<li><a href="#bottom" id="website_link">Website</a><%= f.text_field :website,:style=>'display:none',:id=>'website_input',:class=>'changing',:tabindex => 3 %></li>
+    			</ul>
+    		<%= f.text_area :body,:style => 'border:1px dashed #303030;margin-top:10px;background-color:#222222;color:#CCC;width:679px;height:80px',:tabindex => 4 %>
+        <%= f.submit 'Submit',:id => 'submit_tag',:tabindex => 5 %>
+      </div>
+  <% end %>
+  <br style="clear:both">
+  </div>
+  
